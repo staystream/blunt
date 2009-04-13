@@ -14,7 +14,7 @@ module Blunt
       
       case d.class.to_s
       when "Range"
-        a,b = [d.first,d.last].map {|it| Date.parse(it.strftime("%Y/%m/%d"))}
+        a, b = [d.first, d.last].map {|it| Date.parse(it.strftime("%Y/%m/%d"))}
         dates = (a..b).to_a   
       else
         dates = d.flatten.map {|it|
@@ -24,13 +24,13 @@ module Blunt
       find_ranges dates
       
       if options[:day]
-        @ranges.map! {|it| range_by_wday(it,options[:day],options[:days])}
+        @ranges.map! {|it| range_by_wday(it,options[:day], options[:days]) }
         @ranges.flatten!
       end
 
       if options[:time]
         @ranges.map! {|it|
-          Time.parse(it.first.strftime("%Y/%m/%d"))..Time.parse(it.last.strftime("%Y/%m/%d"))}
+          Time.utc(it.first.year, it.first.mon, it.first.day)..Time.utc(it.last.year, it.last.mon, it.last.day) }
       end
     end 
 
